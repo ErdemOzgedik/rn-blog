@@ -1,3 +1,2 @@
 # rn-blog
-# rn-blog
-# rn-blog
+Blog app sample
