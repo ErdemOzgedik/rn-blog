@@ -1,49 +1,32 @@
 import React, { useContext } from "react";
 import { Text, View, StyleSheet, FlatList, Button } from "react-native";
-import BlogContext from "../context/BlogContext";
+import { Context as BlogContext } from "../context/BlogContext";
 
 const IndexScreen = () => {
-  const { data, dispatch } = useContext(BlogContext);
+  const { state, addBlog } = useContext(BlogContext);
 
   return (
     <View>
       <Button
         title="Add Post"
         onPress={() => {
-          dispatch({
-            type: "add",
-            payload: {
-              title: "title #1",
-              content: "content #1",
-            },
-          });
+          addBlog();
         }}
       />
       <Button
         title="Delete Post"
         onPress={() => {
-          dispatch({
-            type: "delete",
-            payload: {
-              title: "title #1",
-            },
-          });
+          alert("will delete");
         }}
       />
       <Button
         title="Update Post"
         onPress={() => {
-          dispatch({
-            type: "update",
-            payload: {
-              title: "title #1",
-              newTitle: "title updated",
-            },
-          });
+          alert("will update");
         }}
       />
       <FlatList
-        data={data}
+        data={state}
         keyExtractor={(blog) => blog.title}
         renderItem={({ item }) => {
           return <Text>{item.title}</Text>;
