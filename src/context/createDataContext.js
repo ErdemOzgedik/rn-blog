@@ -8,6 +8,7 @@ export default (reducer, actions, initialState) => {
     const boundActions = {};
 
     for (let key in actions) {
+      console.log(`GELEN KEY: ${key}`);
       boundActions[key] = actions[key](dispatch);
     }
 

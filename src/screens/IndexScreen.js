@@ -1,9 +1,17 @@
 import React, { useContext } from "react";
-import { Text, View, StyleSheet, FlatList, Button } from "react-native";
+import {
+  Text,
+  View,
+  StyleSheet,
+  FlatList,
+  Button,
+  TouchableOpacity,
+} from "react-native";
 import { Context as BlogContext } from "../context/BlogContext";
+import { Feather } from "@expo/vector-icons";
 
-const IndexScreen = () => {
-  const { state, addBlog } = useContext(BlogContext);
+const IndexScreen = ({ navigation }) => {
+  const { state, addBlog, deleteBlog } = useContext(BlogContext);
 
   return (
     <View>
@@ -13,29 +21,50 @@ const IndexScreen = () => {
           addBlog();
         }}
       />
-      <Button
-        title="Delete Post"
-        onPress={() => {
-          alert("will delete");
-        }}
-      />
-      <Button
-        title="Update Post"
-        onPress={() => {
-          alert("will update");
-        }}
-      />
       <FlatList
         data={state}
-        keyExtractor={(blog) => blog.title}
+        keyExtractor={(blog) => blog.id}
         renderItem={({ item }) => {
-          return <Text>{item.title}</Text>;
+          return (
+            <View style={styles.listItem}>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate("Detail", {
+                    id: item.id,
+                  });
+                }}
+              >
+                <Text style={styles.title}>
+                  {item.title}-{item.id}
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  deleteBlog(item.id);
+                }}
+              >
+                <Feather name="trash" size={24} color="black" />
+              </TouchableOpacity>
+            </View>
+          );
         }}
       />
     </View>
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  listItem: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingVertical: 20,
+    paddingHorizontal: 10,
+    borderTopWidth: 1,
+    borderColor: "gray",
+  },
+  title: {
+    fontSize: 18,
+  },
+});
 
 export default IndexScreen;
