@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useLayoutEffect } from "react";
 import {
   Text,
   View,
@@ -11,16 +11,27 @@ import { Context as BlogContext } from "../context/BlogContext";
 import { Feather } from "@expo/vector-icons";
 
 const IndexScreen = ({ navigation }) => {
-  const { state, addBlog, deleteBlog } = useContext(BlogContext);
+  const { state, deleteBlog } = useContext(BlogContext);
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity>
+          <Feather
+            name="plus"
+            size={24}
+            color="black"
+            onPress={() => {
+              navigation.navigate("Create");
+            }}
+          />
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
 
   return (
     <View>
-      <Button
-        title="Add Post"
-        onPress={() => {
-          addBlog();
-        }}
-      />
       <FlatList
         data={state}
         keyExtractor={(blog) => blog.id}
