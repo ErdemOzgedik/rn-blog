@@ -5,6 +5,7 @@ import IndexScreen from "./src/screens/IndexScreen";
 import { Provider as BlogProvider } from "./src/context/BlogContext";
 import DetailScreen from "./src/screens/DetailScreen";
 import CreateScreen from "./src/screens/CreateScreen";
+import EditScreen from "./src/screens/EditScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -15,6 +16,7 @@ const App = () => {
         <Stack.Screen name="Home" component={IndexScreen} />
         <Stack.Screen name="Detail" component={DetailScreen} />
         <Stack.Screen name="Create" component={CreateScreen} />
+        <Stack.Screen name="Edit" component={EditScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

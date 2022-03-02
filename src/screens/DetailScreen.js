@@ -1,11 +1,29 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Text, View, StyleSheet, Button } from "react-native";
+import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
+import { Text, View, StyleSheet, Button, TouchableOpacity } from "react-native";
 import { Context as BlogContext } from "../context/BlogContext";
+import { Foundation } from "@expo/vector-icons";
 
-const DetailScreen = ({ route }) => {
+const DetailScreen = ({ navigation, route }) => {
   const { id } = route.params;
   const [blog, setBlog] = useState({});
   const { state } = useContext(BlogContext);
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity>
+          <Foundation
+            name="pencil"
+            size={24}
+            color="black"
+            onPress={() => {
+              navigation.navigate("Edit", { id });
+            }}
+          />
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
 
   useEffect(() => {
     setBlog(
@@ -17,12 +35,6 @@ const DetailScreen = ({ route }) => {
 
   return (
     <View>
-      <Button
-        title="Update Post"
-        onPress={() => {
-          alert("Will Update");
-        }}
-      />
       {!blog.title ? (
         <Text>Loadinggg.....</Text>
       ) : (

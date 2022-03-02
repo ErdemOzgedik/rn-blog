@@ -4,7 +4,6 @@ import {
   View,
   StyleSheet,
   FlatList,
-  Button,
   TouchableOpacity,
 } from "react-native";
 import { Context as BlogContext } from "../context/BlogContext";
