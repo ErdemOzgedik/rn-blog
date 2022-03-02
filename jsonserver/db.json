@@ -1,3 +1,14 @@
 {
-    "blogs": []
+  "blogs": [
+    {
+      "title": "check updated",
+      "content": "sa",
+      "id": 2
+    },
+    {
+      "title": "adding post",
+      "content": "content updated",
+      "id": 3
+    }
+  ]
 }

@@ -1,4 +1,4 @@
-import React, { useContext, useLayoutEffect } from "react";
+import React, { useContext, useEffect, useLayoutEffect } from "react";
 import {
   Text,
   View,
@@ -10,7 +10,7 @@ import { Context as BlogContext } from "../context/BlogContext";
 import { Feather } from "@expo/vector-icons";
 
 const IndexScreen = ({ navigation }) => {
-  const { state, deleteBlog } = useContext(BlogContext);
+  const { state, getBlogs, deleteBlog } = useContext(BlogContext);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -28,6 +28,16 @@ const IndexScreen = ({ navigation }) => {
       ),
     });
   }, [navigation]);
+
+  useEffect(() => {
+    getBlogs();
+
+    const unsubscribe = navigation.addListener("focus", () => {
+      getBlogs();
+    });
+
+    return unsubscribe;
+  }, []);
 
   return (
     <View>

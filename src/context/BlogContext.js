@@ -1,8 +1,11 @@
 import createDataContext from "./createDataContext";
+import jsonServer from "../api/jsonServer";
 
 const reducer = (state, action) => {
   console.log(`State -> ${JSON.stringify(state)}`);
   switch (action.type) {
+    case "get_blogs":
+      return action.payload;
     case "add_blog":
       return [
         ...state,
@@ -26,18 +29,19 @@ const reducer = (state, action) => {
 };
 
 const addBlog = (dispatch) => {
-  return (blog, cb) => {
-    dispatch({
-      type: "add_blog",
-      payload: blog,
-    });
-
+  return async (blog, cb) => {
+    await jsonServer.post("/blogs", blog);
+    // dispatch({
+    //   type: "add_blog",
+    //   payload: blog,
+    // });
     cb();
   };
 };
 
 const deleteBlog = (dispatch) => {
-  return (id) => {
+  return async (id) => {
+    await jsonServer.delete(`/blogs/${id}`);
     dispatch({
       type: "delete_blog",
       payload: id,
@@ -46,21 +50,26 @@ const deleteBlog = (dispatch) => {
 };
 
 const updateBlog = (dispatch) => {
-  return (blog, cb) => {
-    dispatch({
-      type: "update_blog",
-      payload: blog,
-    });
+  return async (blog, cb) => {
+    await jsonServer.put(`/blogs/${blog.id}`, blog);
+    // dispatch({
+    //   type: "update_blog",
+    //   payload: blog,
+    // });
 
     cb();
   };
 };
 
+const getBlogs = (dispatch) => {
+  return async () => {
+    const response = await jsonServer.get("/blogs");
+    dispatch({ type: "get_blogs", payload: response.data });
+  };
+};
+
 export const { Context, Provider } = createDataContext(
   reducer,
-  { addBlog, deleteBlog, updateBlog },
-  [
-    { id: 1, title: "Mock Post Title #1", content: "Mock content for blog" },
-    { id: 2, title: "Mock Post Title #2", content: "Mock content for blog" },
-  ]
+  { addBlog, deleteBlog, updateBlog, getBlogs },
+  []
 );
