@@ -18,11 +18,7 @@ const reducer = (state, action) => {
       });
     case "update_blog":
       return state.map((blog) => {
-        if (blog.id === action.payload.id) {
-          blog.title = action.payload.title;
-          blog.content = action.payload.content;
-        }
-        return blog;
+        return blog.id === action.payload.id ? action.payload : blog;
       });
     default:
       return state;
